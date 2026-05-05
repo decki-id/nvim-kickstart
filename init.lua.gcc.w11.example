@@ -96,7 +96,7 @@ if vim.fn.has("win32") == 1 and vim.fn.executable("gcc.exe") == 1 then
 end
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
@@ -225,8 +225,8 @@ local opts = { noremap = true, silent = true }
 vim.keymap.set('v', 'p', '"_dP', opts)
 
 -- Buffer navigation
-vim.keymap.set('n', '<Tab>', ':bnext<CR>', opts)
-vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', opts)
+vim.keymap.set('n', '<Tab>', ':BufferLineCycleNext<CR>', opts)
+vim.keymap.set('n', '<S-Tab>', ':BufferLineCyclePrev<CR>', opts)
 
 -- Alternative buffer navigation
 vim.keymap.set('n', '<C-A-PageUp>', ':BufferLineCyclePrev<CR>', opts)

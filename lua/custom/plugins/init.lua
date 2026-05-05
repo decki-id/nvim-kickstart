@@ -9,9 +9,7 @@ return {
   {
     'goolord/alpha-nvim',
     dependencies = { 'nvim-mini/mini.icons' },
-    config = function ()
-      require'alpha'.setup(require'alpha.themes.startify'.config)
-    end
+    config = function() require('alpha').setup(require('alpha.themes.startify').config) end,
   },
   {
     'akinsho/bufferline.nvim',
@@ -31,15 +29,16 @@ return {
           separator_style = { '|', '|' },
           show_tab_indicators = false,
           indicator = { style = 'none' },
+          custom_filter = function(buf) return vim.bo[buf].filetype ~= 'alpha' end,
         },
         highlights = {
           separator = { fg = '#434c5e' },
           buffer_selected = {
             bold = true,
             italic = false,
-          }
-        }
+          },
+        },
       }
     end,
-  }
+  },
 }

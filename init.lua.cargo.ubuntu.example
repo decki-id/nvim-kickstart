@@ -90,13 +90,13 @@ P.S. You can delete this when you're done too. It's your config now! :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
--- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
-
 -- Ensure ~/.cargo/bin is in PATH so tree-sitter-cli (installed via cargo) is
 -- always found regardless of how Neovim is launched (terminal, GUI, etc.)
 local cargo_bin = vim.fs.joinpath(vim.uv.os_homedir(), '.cargo', 'bin')
 if vim.fn.isdirectory(cargo_bin) == 1 and not vim.env.PATH:find(cargo_bin, 1, true) then vim.env.PATH = cargo_bin .. ':' .. vim.env.PATH end
+
+-- Set to true if you have a Nerd Font installed and selected in the terminal
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
@@ -225,8 +225,8 @@ local opts = { noremap = true, silent = true }
 vim.keymap.set('v', 'p', '"_dP', opts)
 
 -- Buffer navigation
-vim.keymap.set('n', '<Tab>', ':bnext<CR>', opts)
-vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', opts)
+vim.keymap.set('n', '<Tab>', ':BufferLineCycleNext<CR>', opts)
+vim.keymap.set('n', '<S-Tab>', ':BufferLineCyclePrev<CR>', opts)
 
 -- Alternative buffer navigation
 vim.keymap.set('n', '<C-A-PageUp>', ':BufferLineCyclePrev<CR>', opts)
