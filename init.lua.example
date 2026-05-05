@@ -212,6 +212,38 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+-- CUSTOM KEYMAPS
+
+local opts = { noremap = true, silent = true }
+
+-- Keep last yanked when pasting
+vim.keymap.set('v', 'p', '"_dP', opts)
+
+-- Buffer navigation
+vim.keymap.set('n', '<Tab>', ':bnext<CR>', opts)
+vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', opts)
+
+-- Alternative buffer navigation
+vim.keymap.set('n', '<C-A-PageUp>', ':BufferLineCyclePrev<CR>', opts)
+vim.keymap.set('n', '<C-A-PageDown>', ':BufferLineCycleNext<CR>', opts)
+
+-- Move buffer position (requires bufferline)
+vim.keymap.set('n', '<C-S-A-PageUp>', ':BufferLineMovePrev<CR>', opts)
+vim.keymap.set('n', '<C-S-A-PageDown>', ':BufferLineMoveNext<CR>', opts)
+
+-- Jump to buffer by position (requires bufferline)
+vim.keymap.set('n', '<leader>1', ':BufferLineGoToBuffer 1<CR>', opts)
+vim.keymap.set('n', '<leader>2', ':BufferLineGoToBuffer 2<CR>', opts)
+vim.keymap.set('n', '<leader>3', ':BufferLineGoToBuffer 3<CR>', opts)
+vim.keymap.set('n', '<leader>4', ':BufferLineGoToBuffer 4<CR>', opts)
+vim.keymap.set('n', '<leader>5', ':BufferLineGoToBuffer 5<CR>', opts)
+vim.keymap.set('n', '<leader>6', ':BufferLineGoToBuffer 6<CR>', opts)
+vim.keymap.set('n', '<leader>7', ':BufferLineGoToBuffer 7<CR>', opts)
+vim.keymap.set('n', '<leader>8', ':BufferLineGoToBuffer 8<CR>', opts)
+vim.keymap.set('n', '<leader>9', ':BufferLineGoToBuffer 9<CR>', opts)
+
+-- END OF CUSTOM KEYMAPS
+
 -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
 -- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
 -- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
@@ -280,6 +312,13 @@ require('lazy').setup({
     ---@diagnostic disable-next-line: missing-fields
     opts = {
       signs = {
+        add = { text = '+' }, ---@diagnostic disable-line: missing-fields
+        change = { text = '~' }, ---@diagnostic disable-line: missing-fields
+        delete = { text = '_' }, ---@diagnostic disable-line: missing-fields
+        topdelete = { text = '‾' }, ---@diagnostic disable-line: missing-fields
+        changedelete = { text = '~' }, ---@diagnostic disable-line: missing-fields
+      },
+      signs_staged = {
         add = { text = '+' }, ---@diagnostic disable-line: missing-fields
         change = { text = '~' }, ---@diagnostic disable-line: missing-fields
         delete = { text = '_' }, ---@diagnostic disable-line: missing-fields
@@ -876,6 +915,14 @@ require('lazy').setup({
       ---@diagnostic disable-next-line: duplicate-set-field
       statusline.section_location = function() return '%2l:%-2v' end
 
+      ---@diagnostic disable-next-line: duplicate-set-field
+      statusline.section_git = function()
+        local branch = vim.b.gitsigns_head or vim.g.gitsigns_head
+        if not branch then return '' end
+        local icon = vim.g.have_nerd_font and ' ' or 'git '
+        return icon .. branch
+      end
+
       -- ... and there is more!
       --  Check out: https://github.com/nvim-mini/mini.nvim
     end,
@@ -947,11 +994,11 @@ require('lazy').setup({
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  require 'kickstart.plugins.indent_line',
-  require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.debug',
+  require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
+  require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommended keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
