@@ -29,7 +29,12 @@ return {
           separator_style = { '|', '|' },
           show_tab_indicators = false,
           indicator = { style = 'none' },
+          sort_by = 'insert_after_current',
           custom_filter = function(buf) return vim.bo[buf].filetype ~= 'alpha' end,
+          get_element_icon = function(element)
+            local icon, hl = require('nvim-web-devicons').get_icon_by_filetype(element.filetype, { default = false })
+            if icon then return icon .. ' ', hl end
+          end,
         },
         highlights = {
           separator = { fg = '#434c5e' },
