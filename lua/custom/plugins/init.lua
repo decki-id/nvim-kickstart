@@ -32,7 +32,14 @@ return {
           sort_by = 'insert_after_current',
           custom_filter = function(buf) return vim.bo[buf].filetype ~= 'alpha' end,
           get_element_icon = function(element)
-            local icon, hl = require('nvim-web-devicons').get_icon_by_filetype(element.filetype, { default = false })
+            local devicons = require 'nvim-web-devicons'
+            local icon, hl = devicons.get_icon_by_filetype(element.filetype, { default = false })
+            if not icon and element.path:match '^term://' then
+              icon, hl = devicons.get_icon_by_filetype('zsh', { default = false })
+            end
+            if not icon then
+              icon, hl = devicons.get_icon(element.path, nil, { default = true })
+            end
             if icon then return icon .. ' ', hl end
           end,
         },
