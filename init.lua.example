@@ -223,13 +223,9 @@ vim.keymap.set('v', 'p', '"_dP', opts)
 vim.keymap.set('n', '<Tab>', ':BufferLineCycleNext<CR>', opts)
 vim.keymap.set('n', '<S-Tab>', ':BufferLineCyclePrev<CR>', opts)
 
--- Alternative buffer navigation
-vim.keymap.set('n', '<C-A-PageUp>', ':BufferLineCyclePrev<CR>', opts)
-vim.keymap.set('n', '<C-A-PageDown>', ':BufferLineCycleNext<CR>', opts)
-
 -- Move buffer position (requires bufferline)
-vim.keymap.set('n', '<C-S-A-PageUp>', ':BufferLineMovePrev<CR>', opts)
-vim.keymap.set('n', '<C-S-A-PageDown>', ':BufferLineMoveNext<CR>', opts)
+vim.keymap.set('n', '<C-A-PageUp>', ':BufferLineMovePrev<CR>', opts)
+vim.keymap.set('n', '<C-A-PageDown>', ':BufferLineMoveNext<CR>', opts)
 
 -- Jump to buffer by position (requires bufferline)
 vim.keymap.set('n', '<leader>1', ':BufferLineGoToBuffer 1<CR>', opts)
@@ -252,6 +248,93 @@ vim.keymap.set('n', '<leader>9', ':BufferLineGoToBuffer 9<CR>', opts)
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
+
+-- Set up alpha screen behavior
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'alpha',
+  callback = function(ev)
+    vim.opt.showtabline = 0
+    -- Prevent splitting on the alpha screen
+    for _, lhs in ipairs { '<C-W>s', '<C-W>v', '<C-W>n', '<C-W><C-S>', '<C-W><C-V>', '<C-W><C-N>' } do
+      vim.keymap.set('n', lhs, '<Nop>', { buffer = ev.buf, silent = true })
+    end
+    -- Make :bd a no-op on the alpha screen by immediately re-opening it
+    vim.api.nvim_create_autocmd({ 'BufDelete', 'BufWipeout' }, {
+      buffer = ev.buf,
+      callback = function()
+        vim.schedule(function()
+          if not pcall(require, 'alpha') then return end
+          -- Only re-open alpha if no real named buffer is open
+          local bufs = vim.fn.getbufinfo { buflisted = 1 }
+          local has_real = false
+          for _, buf in ipairs(bufs) do
+            if buf.name ~= '' then
+              has_real = true
+              break
+            end
+          end
+          if has_real then return end
+          pcall(function() vim.cmd 'Alpha' end)
+          vim.schedule(function()
+            for _, buf in ipairs(vim.fn.getbufinfo { buflisted = 1 }) do
+              if buf.name == '' and buf.changed == 0 then pcall(function() vim.cmd('bwipeout ' .. buf.bufnr) end) end
+            end
+          end)
+        end)
+      end,
+    })
+  end,
+})
+
+-- Replace an empty buffer with alpha-nvim greeter screen (for non-alpha buffers)
+vim.api.nvim_create_autocmd('BufDelete', {
+  callback = function(_)
+    vim.schedule(function()
+      if vim.bo.filetype == 'alpha' or not pcall(require, 'alpha') then return end
+      local bufs = vim.fn.getbufinfo { buflisted = 1 }
+      local is_empty = #bufs == 0 or (#bufs == 1 and bufs[1].name == '' and bufs[1].changed == 0)
+      if not is_empty then return end
+      pcall(function() vim.cmd 'Alpha' end)
+      vim.schedule(function()
+        for _, buf in ipairs(vim.fn.getbufinfo { buflisted = 1 }) do
+          if buf.name == '' and buf.changed == 0 then pcall(function() vim.cmd('bwipeout ' .. buf.bufnr) end) end
+        end
+      end)
+    end)
+  end,
+})
+
+-- Hide bufferline when leaving alpha screen
+vim.api.nvim_create_autocmd('BufLeave', {
+  pattern = '*',
+  callback = function()
+    if vim.bo.filetype == 'alpha' then vim.opt.showtabline = 2 end
+  end,
+})
+
+-- Wipe leftover empty unnamed buffers when a real file is opened
+vim.api.nvim_create_autocmd('BufWinEnter', {
+  callback = function(ev)
+    local name = vim.api.nvim_buf_get_name(ev.buf)
+    if name == '' or vim.bo[ev.buf].filetype == 'alpha' then return end
+    for _, buf in ipairs(vim.fn.getbufinfo { buflisted = 1 }) do
+      if buf.bufnr ~= ev.buf and buf.name == '' and buf.changed == 0 then
+        vim.cmd('bwipeout ' .. buf.bufnr)
+      end
+    end
+  end,
+})
+
+-- Wipe leftover empty unnamed buffers when a terminal is opened
+vim.api.nvim_create_autocmd('TermOpen', {
+  callback = function(ev)
+    for _, buf in ipairs(vim.fn.getbufinfo { buflisted = 1 }) do
+      if buf.bufnr ~= ev.buf and buf.name == '' and buf.changed == 0 then
+        vim.cmd('bwipeout ' .. buf.bufnr)
+      end
+    end
+  end,
+})
 
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
