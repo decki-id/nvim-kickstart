@@ -336,6 +336,16 @@ vim.api.nvim_create_autocmd('TermOpen', {
   end,
 })
 
+-- Set 2-space indent for SQL buffers
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'sql',
+  callback = function()
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.tabstop = 2
+    vim.opt_local.expandtab = true
+  end,
+})
+
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
 --  See `:help vim.hl.on_yank()`
