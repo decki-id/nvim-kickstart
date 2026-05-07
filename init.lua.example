@@ -228,8 +228,8 @@ vim.keymap.set('n', '<Tab>', ':BufferLineCycleNext<CR>', opts)
 vim.keymap.set('n', '<S-Tab>', ':BufferLineCyclePrev<CR>', opts)
 
 -- Move buffer position (requires bufferline)
-vim.keymap.set('n', '<C-A-PageUp>', ':BufferLineMovePrev<CR>', opts)
-vim.keymap.set('n', '<C-A-PageDown>', ':BufferLineMoveNext<CR>', opts)
+vim.keymap.set('n', '<A-,>', ':BufferLineMovePrev<CR>', opts)
+vim.keymap.set('n', '<A-.>', ':BufferLineMoveNext<CR>', opts)
 
 -- Jump to buffer by position (requires bufferline)
 vim.keymap.set('n', '<leader>1', ':BufferLineGoToBuffer 1<CR>', opts)
