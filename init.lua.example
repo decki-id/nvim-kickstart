@@ -219,6 +219,10 @@ local opts = { noremap = true, silent = true }
 -- Keep last yanked when pasting
 vim.keymap.set('v', 'p', '"_dP', opts)
 
+-- Stay in indent mode
+vim.keymap.set('v', '<', '<gv', opts)
+vim.keymap.set('v', '>', '>gv', opts)
+
 -- Buffer navigation
 vim.keymap.set('n', '<Tab>', ':BufferLineCycleNext<CR>', opts)
 vim.keymap.set('n', '<S-Tab>', ':BufferLineCyclePrev<CR>', opts)
@@ -353,6 +357,17 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
   callback = function() vim.hl.on_yank() end,
+})
+
+-- Strip trailing newline from system clipboard after yanking
+vim.api.nvim_create_autocmd('TextYankPost', {
+  callback = function()
+    local reg = vim.v.event.regname
+    if reg == '' or reg == '+' or reg == '*' then
+      local content = vim.fn.getreg '+'
+      vim.fn.setreg('+', content:gsub('\n$', ''))
+    end
+  end,
 })
 
 -- [[ Install `lazy.nvim` plugin manager ]]
