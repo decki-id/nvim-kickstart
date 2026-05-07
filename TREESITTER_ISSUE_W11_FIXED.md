@@ -5,7 +5,7 @@
 The following tools must be installed via Chocolatey before applying any fixes:
 
 ```powershell
-choco install mingw make tree-sitter ripgrep -y
+choco install mingw make tree-sitter ripgrep nerd-fonts-jetbrainsmono -y
 ```
 
 | Tool | Purpose |
@@ -14,6 +14,7 @@ choco install mingw make tree-sitter ripgrep -y
 | `make` | Required by nvim-treesitter's build system |
 | `tree-sitter` | CLI used by nvim-treesitter (main branch) to build parsers |
 | `ripgrep` | Required for Telescope's live grep |
+| `nerd-fonts-jetbrainsmono` | JetBrainsMono Nerd Font — required for icons in Neovim |
 
 ---
 
