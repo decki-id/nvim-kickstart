@@ -358,6 +358,7 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
+-- Set '@REM' instead of 'REM' for dosbatch
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'dosbatch',
   callback = function()
@@ -365,6 +366,7 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
+-- Set ';' instead of '#' for dosini
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'dosini',
   callback = function()
