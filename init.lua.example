@@ -360,6 +360,13 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'dosini',
+  callback = function()
+    vim.bo.commentstring = '; %s'
+  end,
+})
+
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
 --  See `:help vim.hl.on_yank()`
