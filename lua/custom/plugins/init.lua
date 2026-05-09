@@ -12,6 +12,13 @@ return {
     config = function() require('alpha').setup(require('alpha.themes.startify').config) end,
   },
   {
+    'nvim-treesitter/nvim-treesitter-context',
+    opts = {
+      max_lines = 3,
+      trim_scope = 'outer',
+    },
+  },
+  {
     'akinsho/bufferline.nvim',
     version = '*',
     dependencies = {
