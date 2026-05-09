@@ -8,13 +8,13 @@ The following tools must be installed via Chocolatey before applying any fixes:
 choco install mingw make tree-sitter ripgrep nerd-fonts-jetbrainsmono -y
 ```
 
-| Tool | Purpose |
-|---|---|
-| `mingw` | Provides `gcc`/`g++` — required to compile tree-sitter parsers |
-| `make` | Required by nvim-treesitter's build system |
-| `tree-sitter` | CLI used by nvim-treesitter (main branch) to build parsers |
-| `ripgrep` | Required for Telescope's live grep |
-| `nerd-fonts-jetbrainsmono` | JetBrainsMono Nerd Font — required for icons in Neovim |
+- `mingw`: Provides `gcc`/`g++` — required to compile tree-sitter parsers
+- `make`: Required by nvim-treesitter's build system
+- `tree-sitter`: CLI used by nvim-treesitter (main branch) to build parsers
+- `ripgrep`: Required for Telescope's live grep
+- Nerd Font — required for icons in Neovim:
+  - `nerd-fonts-jetbrainsmono`: JetBrainsMono Nerd Font
+  - `nerd-fonts-CascadiaCode`: CaskaydiaCove Nerd Font (closer to Consolas in size)
 
 ---
 
