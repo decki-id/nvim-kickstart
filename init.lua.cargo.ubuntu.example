@@ -175,6 +175,10 @@ vim.opt.shada = "'100,<50,s10,h,!"
 -- Set wrap/nowrap
 vim.opt.wrap = false
 
+-- Set up grep rules
+vim.opt.grepprg = 'rg --vimgrep --smart-case'
+vim.opt.grepformat = '%f:%l:%c:%m'
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
