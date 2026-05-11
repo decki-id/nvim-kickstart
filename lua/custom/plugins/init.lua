@@ -13,18 +13,12 @@ return {
   },
   {
     'nvim-treesitter/nvim-treesitter-context',
-    opts = {
-      max_lines = 3,
-      trim_scope = 'outer',
-    },
+    opts = { max_lines = 5, trim_scope = 'inner', },
   },
   {
     'akinsho/bufferline.nvim',
     version = '*',
-    dependencies = {
-      'moll/vim-bbye',
-      'nvim-tree/nvim-web-devicons',
-    },
+    dependencies = { 'moll/vim-bbye', 'nvim-tree/nvim-web-devicons', },
     config = function()
       require('bufferline').setup {
         options = {
@@ -60,4 +54,5 @@ return {
       }
     end,
   },
+  { 'mg979/vim-visual-multi', },
 }
