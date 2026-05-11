@@ -170,7 +170,7 @@ vim.o.scrolloff = 10
 vim.o.confirm = true
 
 -- Merge shada across multiple Neovim instances (e.g. tmux windows)
-vim.opt.shada = "'100,<50,s10,h,!"
+vim.opt.shada = "'100,:100,/100,h,!"
 
 -- Set wrap/nowrap
 vim.opt.wrap = false
