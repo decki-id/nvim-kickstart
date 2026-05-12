@@ -357,36 +357,6 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
--- Set '@REM' instead of 'REM' for dosbatch
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'dosbatch',
-  callback = function()
-    vim.bo.commentstring = '@REM %s'
-  end,
-})
-
--- Set ';' instead of '#' for dosini
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'dosini',
-  callback = function()
-    vim.schedule(function()
-      if vim.api.nvim_buf_is_valid(0) then
-        vim.bo.commentstring = '; %s'
-      end
-    end)
-  end,
-})
-
--- Fallback: ensure ini files opened via other means use ';' commentstring
-vim.api.nvim_create_autocmd({'BufReadPost','BufNewFile'}, {
-  pattern = '*.ini',
-  callback = function(ev)
-    if vim.bo[ev.buf].filetype == 'dosini' then
-      vim.bo[ev.buf].commentstring = '; %s'
-    end
-  end,
-})
-
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
 --  See `:help vim.hl.on_yank()`
@@ -1035,8 +1005,19 @@ require('lazy').setup({
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
 
-      -- Skip empty lines while using gc
-      require('mini.comment').setup { options = { ignore_blank_line = true } }
+      -- Set up gc comment toggle
+      require('mini.comment').setup {
+        options = {
+          ignore_blank_line = true,
+          custom_commentstring = function()
+            if vim.bo.filetype == 'dosini' then
+              return '; %s'
+            elseif vim.bo.filetype == 'dosbatch' then
+              return '@REM %s'
+            end
+          end,
+        },
+      }
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
