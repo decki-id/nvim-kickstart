@@ -377,10 +377,19 @@ vim.api.nvim_create_autocmd('FileType', {
     local bufnr = ev.buf
     vim.schedule(function()
       if vim.api.nvim_buf_is_valid(bufnr) then
-        -- Use buffer-local option assignment to avoid deprecated API
         vim.bo[bufnr].commentstring = '; %s'
       end
     end)
+  end,
+})
+
+-- Fallback: ensure ini files opened via other means use ';' commentstring
+vim.api.nvim_create_autocmd({'BufReadPost','BufNewFile'}, {
+  pattern = '*.ini',
+  callback = function(ev)
+    if vim.bo[ev.buf].filetype == 'dosini' then
+      vim.bo[ev.buf].commentstring = '; %s'
+    end
   end,
 })
 
