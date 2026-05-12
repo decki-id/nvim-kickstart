@@ -373,11 +373,10 @@ vim.api.nvim_create_autocmd('FileType', {
 -- Set ';' instead of '#' for dosini
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'dosini',
-  callback = function(ev)
-    local bufnr = ev.buf
+  callback = function()
     vim.schedule(function()
-      if vim.api.nvim_buf_is_valid(bufnr) then
-        vim.bo[bufnr].commentstring = '; %s'
+      if vim.api.nvim_buf_is_valid(0) then
+        vim.bo.commentstring = '; %s'
       end
     end)
   end,
