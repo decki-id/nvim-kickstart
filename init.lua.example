@@ -167,9 +167,6 @@ vim.o.confirm = true
 -- Merge shada across multiple Neovim instances (e.g. tmux windows)
 vim.opt.shada = "'100,:100,/100,h,!"
 
--- Set wrap/nowrap
-vim.opt.wrap = false
-
 -- Set up grep rules
 vim.opt.grepprg = 'rg --vimgrep --smart-case'
 vim.opt.grepformat = '%f:%l:%c:%m'
