@@ -31,6 +31,14 @@ return {
           show_tab_indicators = false,
           indicator = { style = 'none' },
           sort_by = 'insert_after_current',
+          offsets = {
+            {
+              filetype = 'neo-tree',
+              text = 'Neo Tree',
+              text_align = 'center',
+              separator = true,
+            },
+          },
           custom_filter = function(buf) return vim.bo[buf].filetype ~= 'alpha' end,
           get_element_icon = function(element)
             local devicons = require 'nvim-web-devicons'
