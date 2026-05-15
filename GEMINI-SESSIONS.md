@@ -10,4 +10,4 @@ gemini --resume cdda0492-8b06-4f32-b3fb-c094a12b3256
 
 ## 20260515: Decki's Laptop
 
-gemini --resume 'e43f5e36-1c87-4302-807b-c13aaccfc3a9'
+gemini --resume e43f5e36-1c87-4302-807b-c13aaccfc3a9
