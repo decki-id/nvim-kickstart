@@ -356,7 +356,31 @@ vim.api.nvim_create_autocmd('TermOpen', {
 
 -- Make 'exit' in terminal behave exactly like manual ':bd'
 vim.api.nvim_create_autocmd('TermClose', {
-  callback = function() vim.cmd('Bd') end
+  callback = function(args)
+    vim.schedule(function()
+      if vim.api.nvim_buf_is_valid(args.buf) then vim.cmd('Bd!') end
+      if vim.bo.filetype == 'neo-tree' then
+        local target_buf = nil
+        for _, b in ipairs(vim.fn.getbufinfo({ buflisted = 1 })) do
+          if b.name ~= '' and vim.bo[b.bufnr].filetype ~= 'neo-tree'
+          and vim.bo[b.bufnr].filetype ~= 'alpha' then
+            target_buf = b.bufnr
+            break
+          end
+        end
+        vim.cmd('wincmd l')
+        if vim.bo.filetype == 'neo-tree' then
+          vim.cmd('vsplit | wincmd l')
+          if target_buf then
+            vim.cmd('buffer ' .. target_buf)
+          elseif pcall(require, 'alpha') then
+            vim.cmd('Alpha')
+          end
+          vim.cmd('wincmd h | vertical resize 30 | wincmd l')
+        end
+      end
+    end)
+  end
 })
 
 -- Set 2-space indent for some file types
