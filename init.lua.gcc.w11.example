@@ -254,6 +254,22 @@ vim.keymap.set('n', '<leader>7', ':BufferLineGoToBuffer 7<CR>', opts)
 vim.keymap.set('n', '<leader>8', ':BufferLineGoToBuffer 8<CR>', opts)
 vim.keymap.set('n', '<leader>9', ':BufferLineGoToBuffer 9<CR>', opts)
 
+-- Redirect :bd to :Bdelete (preserve layout)
+vim.api.nvim_create_user_command('Bd', 'Bdelete<bang> <args>', { bang = true, nargs = '?' })
+vim.cmd('cnoreabbrev bd Bd')
+
+local function open_smart_terminal(term_opts)
+  local args = term_opts.args
+  local cmd = 'terminal'
+  if vim.bo.filetype == 'neo-tree' then vim.cmd('wincmd l') end
+  if args ~= '' then cmd = cmd .. ' ' .. args end
+  vim.cmd(cmd)
+  vim.cmd('startinsert')
+end
+
+vim.api.nvim_create_user_command('STerm', open_smart_terminal, { nargs = '*' })
+vim.cmd('cnoreabbrev term STerm')
+
 -- END OF CUSTOM KEYMAPS
 
 -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
@@ -269,7 +285,6 @@ vim.keymap.set('n', '<leader>9', ':BufferLineGoToBuffer 9<CR>', opts)
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'alpha',
   callback = function(ev)
-    vim.opt.showtabline = 0
     -- Prevent splitting on the alpha screen
     for _, lhs in ipairs { '<C-W>s', '<C-W>v', '<C-W>n', '<C-W><C-S>', '<C-W><C-V>', '<C-W><C-N>' } do
       vim.keymap.set('n', lhs, '<Nop>', { buffer = ev.buf, silent = true })
@@ -320,14 +335,6 @@ vim.api.nvim_create_autocmd('BufDelete', {
   end,
 })
 
--- Hide bufferline when leaving alpha screen
-vim.api.nvim_create_autocmd('BufLeave', {
-  pattern = '*',
-  callback = function()
-    if vim.bo.filetype == 'alpha' then vim.opt.showtabline = 2 end
-  end,
-})
-
 -- Wipe leftover empty unnamed buffers when a real file is opened
 vim.api.nvim_create_autocmd('BufWinEnter', {
   callback = function(ev)
@@ -350,6 +357,11 @@ vim.api.nvim_create_autocmd('TermOpen', {
       end
     end
   end,
+})
+
+-- Make 'exit' in terminal behave exactly like manual ':bd'
+vim.api.nvim_create_autocmd('TermClose', {
+  callback = function() vim.cmd('Bd') end
 })
 
 -- Set 2-space indent for some file types
