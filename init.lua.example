@@ -388,7 +388,7 @@ vim.api.nvim_create_autocmd('TermClose', {
           elseif pcall(require, 'alpha') then
             vim.cmd('Alpha')
           end
-          vim.cmd('wincmd h | vertical resize 30 | wincmd l')
+          vim.cmd('wincmd h | vertical resize 40 | wincmd l')
         end
       end
     end)
