@@ -250,7 +250,19 @@ vim.keymap.set('n', '<leader>8', ':BufferLineGoToBuffer 8<CR>', opts)
 vim.keymap.set('n', '<leader>9', ':BufferLineGoToBuffer 9<CR>', opts)
 
 -- Redirect :bd to :Bdelete (preserve layout)
-vim.api.nvim_create_user_command('Bd', 'Bdelete<bang> <args>', { bang = true, nargs = '?' })
+vim.api.nvim_create_user_command('Bd', function(bd_opts)
+  if bd_opts.range > 0 then
+    -- Loop through the buffer range (e.g. 1 to 10 for :%bd)
+    for i = bd_opts.line1, bd_opts.line2 do
+      if vim.api.nvim_buf_is_valid(i) then
+        vim.cmd(string.format('Bdelete%s %d', bd_opts.bang and '!' or '', i))
+      end
+    end
+  else
+    -- Standard single buffer delete
+    vim.cmd(string.format('Bdelete%s %s', bd_opts.bang and '!' or '', bd_opts.args))
+  end
+end, { bang = true, range = true, addr = 'buffers', nargs = '?' })
 vim.cmd('cnoreabbrev bd Bd')
 
 local function open_smart_terminal(term_opts)
