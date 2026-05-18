@@ -14,7 +14,6 @@ This is **not** a generic starter template — it is my daily-driver setup, main
 |----------|-------------|
 | **alpha-nvim** | Startify-style dashboard with smart buffer-guard logic |
 | **bufferline.nvim** | Numbered buffer tabs with `<leader>1-9` shortcuts and `<Tab>`/`<S-Tab>` cycling |
-| **vim-visual-multi** | Multi-cursor editing (Vimscript plugin) |
 | **nvim-treesitter-context** | Sticky context lines at the top of the window |
 | **~/.cargo/bin PATH injection** | Ensures `tree-sitter-cli` (installed via cargo) is discoverable regardless of shell config |
 | **Cross-platform variants** | `init.lua.cargo.ubuntu.example` and `init.lua.gcc.w11.example` capture platform-specific compiler setups |
@@ -35,7 +34,6 @@ This is **not** a generic starter template — it is my daily-driver setup, main
 |----------|--------|-------|
 | Ubuntu 22.04 | ✅ Primary | `tree-sitter-cli` compiled from source via cargo (see [TREESITTER_ISSUE_UBU_FIXED.md](TREESITTER_ISSUE_UBU_FIXED.md)) |
 | Windows 11 | ✅ Supported | MinGW gcc with UCRT DLL fix applied (see [TREESITTER_ISSUE_W11_FIXED.md](TREESITTER_ISSUE_W11_FIXED.md)) |
-| Decki's Laptop | ✅ Active | Ubuntu 22.04 + W11 dual-boot |
 
 ---
 
