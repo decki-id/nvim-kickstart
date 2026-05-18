@@ -16,6 +16,11 @@ return {
     opts = { max_lines = 5, trim_scope = 'inner', },
   },
   {
+    'smoka7/multicursors.nvim',
+    dependencies = { 'nvimtools/hydra.nvim' },
+    opts = {},
+  },
+  {
     'akinsho/bufferline.nvim',
     version = '*',
     dependencies = { 'moll/vim-bbye', 'nvim-tree/nvim-web-devicons', },
@@ -61,6 +66,5 @@ return {
         },
       }
     end,
-  },
-  { 'mg979/vim-visual-multi', },
+  }
 }
