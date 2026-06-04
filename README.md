@@ -4,7 +4,8 @@
 
 A personalized Neovim configuration built on top of [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim).
 
-This is **not** a generic starter template — it is my daily-driver setup, maintained across Ubuntu 22.04 and Windows 11. It keeps kickstart's single-file philosophy and extensive inline documentation, but adds opinionated UI enhancements, multi-platform tooling fixes, and AI-friendly documentation conventions.
+This is **not** a generic starter template — it is my daily-driver setup, maintained across Ubuntu 22.04 and Windows 11.<br>
+It keeps kickstart's single-file philosophy and extensive inline documentation, but adds opinionated UI enhancements, multi-platform tooling fixes, and AI-friendly documentation conventions.
 
 ---
 
@@ -127,4 +128,5 @@ This repository is designed to be AI-assistant-friendly:
 
 ## License
 
-This configuration is based on [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) by TJ DeVries and contributors, licensed under the MIT License. See [LICENSE.md](LICENSE.md).
+This configuration is based on [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) by TJ DeVries and contributors, licensed under the MIT License.<br>
+See [LICENSE.md](LICENSE.md).
