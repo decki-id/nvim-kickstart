@@ -1089,7 +1089,7 @@ require('lazy').setup({
             local location = statusline.section_location { trunc_width = 75 }
 
             -- Terminal buffers and alpha screen don't have gitsigns state, so compute branch manually
-            if git == '' and (vim.bo.buftype == 'terminal' or vim.bo.filetype == 'alpha') then
+            if git == '' and (vim.bo.buftype == 'terminal' or vim.bo.filetype == 'alpha' or vim.bo.filetype == '') then
               local cwd = vim.fn.getcwd()
               local git_dirs = vim.fs.find('.git', { upward = true, type = 'directory', path = cwd })
               if git_dirs[1] then
