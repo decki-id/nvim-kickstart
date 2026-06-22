@@ -1116,6 +1116,26 @@ require('lazy').setup({
       ---@diagnostic disable-next-line: duplicate-set-field
       statusline.section_location = function() return '%2l:%-2v' end
 
+      -- Add extra space between filetype icon and filetype name
+      local original_fileinfo = statusline.section_fileinfo
+      ---@diagnostic disable-next-line: duplicate-set-field
+      statusline.section_fileinfo = function(args)
+        local result = original_fileinfo(args)
+        local filetype = vim.bo.filetype
+        if filetype == '' or not vim.g.have_nerd_font or result == '' then return result end
+
+        local pos = result:find(filetype, 1, true)
+        if pos and pos > 1 then
+          local icon_part = result:sub(1, pos - 1):gsub('%s+$', '')
+          local rest = result:sub(pos + #filetype)
+          local space = '  '
+          if filetype == 'text' then space = ' ' end
+          result = icon_part .. space .. filetype .. rest
+        end
+
+        return result
+      end
+
       -- ... and there is more!
       --  Check out: https://github.com/nvim-mini/mini.nvim
     end,
