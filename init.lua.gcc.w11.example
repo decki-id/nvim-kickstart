@@ -1134,7 +1134,7 @@ require('lazy').setup({
           local icon_part = result:sub(1, pos - 1):gsub('%s+$', '')
           local rest = result:sub(pos + #filetype)
           local space = '  '
-          if filetype == 'text' then space = ' ' end
+          if filetype == 'text' or filetype == 'sql' then space = ' ' end
           result = icon_part .. space .. filetype .. rest
         end
 
