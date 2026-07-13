@@ -150,6 +150,10 @@ vim.o.splitbelow = true
 vim.o.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
+vim.o.shiftwidth = 2
+vim.o.tabstop = 2
+vim.o.expandtab = true
+
 -- Preview substitutions live, as you type!
 vim.o.inccommand = 'split'
 
@@ -395,12 +399,13 @@ vim.api.nvim_create_autocmd('TermClose', {
   end
 })
 
--- Set 2-space indent for some file types
+-- Set 4-space indent for some file types
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = { '', 'conf', 'dosbatch', 'dosini', 'json', 'nginx', 'php', 'sh', 'sql', 'text', 'tmux', 'vim', 'zsh' },
+  -- pattern = { '', 'conf', 'dosbatch', 'dosini', 'json', 'nginx', 'php', 'sh', 'sql', 'text', 'tmux', 'vim', 'zsh' },
+  pattern = { 'cs', 'java', 'kotlin', 'objc', 'php', 'python', 'rust', 'swift' },
   callback = function()
-    vim.opt_local.shiftwidth = 2
-    vim.opt_local.tabstop = 2
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.tabstop = 4
     vim.opt_local.expandtab = true
   end,
 })
