@@ -24,28 +24,39 @@ The npm-distributed binary is compiled against GLIBC 2.39, which is not availabl
 
 **Fix**:
 
-1. Install the Rust toolchain (installs to `~/.cargo`, no system packages affected):
+1. Configure Rust toolchain to use `/opt/rustup` and `/opt/cargo`:
+   Set the following environment variables persistently in your shell RC file(s) (e.g., `~/.bashrc`, `~/.profile`, or equivalent):
    ```sh
-   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-   source "$HOME/.cargo/env"
+   export RUSTUP_HOME=/opt/rustup
+   export CARGO_HOME=/opt/cargo
+   export PATH="$CARGO_HOME/bin:$PATH"
+   ```
+   Then reload your shell:
+   ```sh
+   source ~/.bashrc  # or your shell's RC file
    ```
 
-2. Install `libclang-dev` (required by the `bindgen` dependency during compilation):
+2. Install the Rust toolchain (will now use `/opt/rustup` and `/opt/cargo`):
+   ```sh
+   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
+   ```
+
+3. Install `libclang-dev` (required by the `bindgen` dependency during compilation):
    ```sh
    sudo apt-get install -y libclang-dev
    ```
 
-3. Build and install `tree-sitter-cli` from source via cargo:
+4. Build and install `tree-sitter-cli` from source via cargo:
    ```sh
    cargo install tree-sitter-cli
    ```
 
-4. Remove the broken npm version:
+5. Remove the broken npm version:
    ```sh
    npm uninstall -g tree-sitter-cli
    ```
 
-The Rust toolchain's `~/.cargo/env` is sourced automatically via `~/.bashrc` and `~/.profile`.
+The Rust toolchain is now managed via `/opt/rustup` and `/opt/cargo`, with `$CARGO_HOME/bin` added to `$PATH` via your shell RC file(s).
 
 **Result**: All 11 nvim-treesitter parsers compiled and installed successfully:
 `bash`, `c`, `diff`, `html`, `lua`, `luadoc`, `markdown`, `markdown_inline`,
