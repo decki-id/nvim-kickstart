@@ -14,6 +14,10 @@ copilot --resume=bcb8aa00-a9f9-4fee-a317-92412d969549
 
 copilot --resume=61a17177-f957-4373-ba8c-c28397314b51
 
+### 20260718: WSL Ubuntu on Decki's Laptop
+
+copilot --resume=cdf24a4b-0b05-4d80-8439-f82a80d5dd1b
+
 ## Gemini CLI
 
 ### 20260512: Ubuntu Office PC (revota)
